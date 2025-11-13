@@ -1,5 +1,5 @@
 // script.js
-fetch('https://jsonplaceholder.typicode.com/posts/1')
+fetch('https://countries-api-hsak.onrender.com/api/continent/Europe')
   .then(response => response.json())
   .then(data => {
     console.log("Données reçues :", data);
