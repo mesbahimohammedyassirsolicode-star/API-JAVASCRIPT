@@ -2,6 +2,7 @@ let container = document.getElementById("cardContainer");
 let continentSelect = document.querySelector(".my-select");
 let countriesData = [];
 
+
 // Fetch 
 fetch("https://countries-api-hsak.onrender.com/api/countries")
   .then(response => response.json())
@@ -22,9 +23,23 @@ function displayCountries(countries) {
       <p><strong>Language:</strong> ${country.language}</p>
       <p><strong>Continent:</strong> ${country.continent}</p>
       <img class="flag-img" src="${country.flag}"flag">
+      <p><strong>ID:</strong> ${country.id}</p>
     `;
     container.appendChild(card);
+    card.addEventListener("click",function(){
+      let id=country.id;
+      sessionStorage.setItem("countryID",id)
+      window.location.href="country-details.html";
+
+    });
   });
+  //save the countiries data 
+  savecountries();
+  function savecountries(){
+  sessionStorage.setItem('datapayes', JSON.stringify(datapayes));
+
+  }
+
 }
 //filter the countiries 
 continentSelect.addEventListener('change', function() {
