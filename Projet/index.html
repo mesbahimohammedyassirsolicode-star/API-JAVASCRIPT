@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue de pays du monde</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        
+        <h1>
+            Catalogue de pays du monde
+        </h1>
+        <nav >
+          
+               <input type="text" required id="searchInput" placeholder="Search for country">
+               <input type="number" required id="searchnub" placeholder="Enter Population Number">
+                <select class="my-select">
+                    <option value="continent">All</option>
+                    <option value="Africa">Africa</option>
+                    <option value="Asia">Asia</option>
+                    <option value="Europe">Europe</option>
+                    <option value="South America">South America</option>
+                    <option value="North America">North America</option>
+                    <option value="Oceania">Oceania</option>
+                </select>
+
+        </nav>
+    </header>
+    <main>
+        <div class="card-container" id="cardContainer"></div>
+
+    </main>
+    <script src="script.js"></script>
+
+</body>
+</html>

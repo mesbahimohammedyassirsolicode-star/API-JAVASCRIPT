@@ -1,6 +1,8 @@
 let container = document.getElementById("cardContainer");
 let continentSelect = document.querySelector(".my-select");
 let countriesData = [];
+let countcountry=[];
+let searchcount= document.getElementById("searchnub");
 
 
 // Fetch 
@@ -8,6 +10,7 @@ fetch("https://countries-api-hsak.onrender.com/api/countries")
   .then(response => response.json())
   .then(data => {
     countriesData = data;
+    countcountry=data;
     displayCountries(data);
   })
 // Function to display countries
@@ -23,23 +26,17 @@ function displayCountries(countries) {
       <p><strong>Language:</strong> ${country.language}</p>
       <p><strong>Continent:</strong> ${country.continent}</p>
       <img class="flag-img" src="${country.flag}"flag">
-      <p><strong>ID:</strong> ${country.id}</p>
+      
+      
     `;
     container.appendChild(card);
     card.addEventListener("click",function(){
       let id=country.id;
       sessionStorage.setItem("countryID",id)
-      window.location.href="country-details.html";
+      window.location.href="country-details.html?"+id;
 
     });
   });
-  //save the countiries data 
-  savecountries();
-  function savecountries(){
-  sessionStorage.setItem('countriesData', JSON.stringify(countriesData));
-
-  }
-
 }
 //filter the countiries 
 continentSelect.addEventListener('change', function() {
@@ -54,3 +51,36 @@ continentSelect.addEventListener('change', function() {
     displayCountries(filteredCountries);
   }
 });
+//search for country
+function setupSearch() {
+    let searchbar = document.getElementById('searchInput');
+    searchbar.addEventListener("input", function() {
+        let value = this.value.trim().toLowerCase();
+        let allCards = document.querySelectorAll(".card");
+        
+        for (let i = 0; i < allCards.length; i++) {
+            let card = allCards[i];
+            let title = card.querySelector('h2').textContent.toLowerCase();
+            if (title.includes(value)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    });
+}
+setupSearch();
+//function for count all the countries 
+searchcount.addEventListener('input', function() {
+  const selectedCount = Number(this.value)
+  
+  if (searchcount > selectedCount) {
+    displayCountries(countcountry);
+  } else {
+  const filteredCountCountries = countcountry.filter(country => 
+      country.population >= searchcount
+    );
+    displayCountries(filteredCountCountries);
+  }
+});
+
