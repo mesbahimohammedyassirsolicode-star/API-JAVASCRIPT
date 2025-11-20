@@ -3,8 +3,6 @@ let continentSelect = document.querySelector(".my-select");
 let countriesData = [];
 let countcountry=[];
 let searchcount= document.getElementById("searchnub");
-
-
 // Fetch 
 fetch("https://countries-api-hsak.onrender.com/api/countries")
   .then(response => response.json())
@@ -26,8 +24,7 @@ function displayCountries(countries) {
       <p><strong>Language:</strong> ${country.language}</p>
       <p><strong>Continent:</strong> ${country.continent}</p>
       <img class="flag-img" src="${country.flag}"flag">
-      
-      
+      <p><strong>Population:</strong> ${country.population}</p>
     `;
     container.appendChild(card);
     card.addEventListener("click",function(){
@@ -72,15 +69,45 @@ function setupSearch() {
 setupSearch();
 //function for count all the countries 
 searchcount.addEventListener('input', function() {
-  const selectedCount = Number(this.value)
+  const selectedCount = Number(this.value);
   
-  if (searchcount > selectedCount) {
-    displayCountries(countcountry);
-  } else {
-  const filteredCountCountries = countcountry.filter(country => 
-      country.population >= searchcount
-    );
-    displayCountries(filteredCountCountries);
+  if (!selectedCount) {
+    displayCountries(countriesData);
+    return;
   }
+  
+  const filteredCountCountries = countriesData.filter(country => 
+    country.population >= selectedCount
+  );
+  
+  displayCountries(filteredCountCountries);
 });
-
+//calculate the number of countries in each continent
+fetch("https://countries-api-hsak.onrender.com/api/countries")
+  .then(response => response.json())
+  .then(data => {
+    countriesData = data;
+    countcountry = data;
+    displayCountries(data);
+    showContinentsCount(); 
+  })
+function showContinentsCount() {
+    let continentCount = {};
+    countriesData.forEach(country => {
+        let continentName = country.continent;
+        if (continentCount[continentName]) {
+            continentCount[continentName] += 1; 
+        } else {
+            continentCount[continentName] = 1; 
+        }
+    });
+    let displayText = "Countries by continent: ";
+    for (let continent in continentCount) {
+        displayText += `${continent} (${continentCount[continent]}), `;
+    }
+    displayText = displayText.slice(0, -2);
+    let headerDiv = document.getElementById("continentsCount");
+    headerDiv.textContent = displayText;
+}
+ displayCountries(data);
+showContinentsCount(); 
